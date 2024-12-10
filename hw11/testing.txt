@@ -1,0 +1,103 @@
+
+#### Functions 
+
+- **setup()**
+  - Tests whether the game environment is correctly initialized, such as setting up the grid and canvas size.
+  
+- **draw()**
+  - Tests the drawing functionality for the grid and falling disks.
+  - Ensures the correct color is displayed for each disk.
+  - Tests the behavior of the falling disk, including its animation and final placement.
+
+- **draw_grid()**
+  - Tests the drawing of the grid lines, ensuring they align correctly with the board.
+  
+- **draw_disk(x, y, color)**
+  - Tests the drawing of individual disks at specific positions (x, y).
+  
+- **mouseReleased()**
+  - Tests whether the player can make a valid move by clicking on a column.
+  - Tests whether the disk drops to the correct row in the clicked column.
+
+- **check_game_over()**
+  - Tests whether the game correctly detects if the grid is full and ends the game.
+
+#### Valid Inputs and Expected Results
+
+1. **setup()**:
+   - No specific input to test, but it should initialize the canvas size and text settings properly.
+   - **Expected Result**: Canvas size based on grid dimensions, text size set to 34.
+
+2. **draw()**:
+   - When the grid is empty and no disks are falling:
+     - **Valid Input**: Empty grid.
+     - **Expected Result**: Grid should be drawn correctly with no disks placed.
+   - When a disk is falling:
+     - **Valid Input**: A falling disk should be added to `falling_disks` list.
+     - **Expected Result**: The disk should animate falling towards its final position and stop at the correct row and column.
+
+3. **draw_grid()**:
+   - **Valid Input**: A grid with any number of columns and rows (e.g., 2x2).
+   - **Expected Result**: Grid lines should be drawn accurately, dividing the board into cells based on the grid dimensions.
+
+4. **draw_disk(x, y, color)**:
+   - **Valid Input**: Position (x, y) and color "RED" or "YELLOW".
+   - **Expected Result**: A disk is drawn at the specified location with the correct color.
+
+5. **mouseReleased()**:
+   - **Valid Input**: Mouse click at a valid position within the grid.
+   - **Expected Result**: A disk should fall into the appropriate column, with the row determined by the first available empty space from bottom to top.
+   - **Valid Input**: Clicking on a non-full column.
+   - **Expected Result**: Disk should be placed in the lowest available space in that column.
+
+6. **check_game_over()**:
+   - **Valid Input**: A full grid with no empty cells.
+   - **Expected Result**: Game ends and prints "Game Over!".
+   - **Valid Input**: A grid with at least one empty cell.
+   - **Expected Result**: No game over, the game continues.
+
+#### Invalid Inputs and Expected Results
+
+1. **setup()**:
+   - No invalid inputs expected for this function.
+
+2. **draw()**:
+   - **Invalid Input**: A disk falling while there is no space in the grid.
+   - **Expected Result**: The disk should stop falling and not be placed.
+
+3. **mouseReleased()**:
+   - **Invalid Input**: Clicking outside the grid area.
+   - **Expected Result**: No disk should be placed.
+
+4. **check_game_over()**:
+   - **Invalid Input**: A non-full grid (with at least one empty space).
+   - **Expected Result**: Game should not end.
+
+#### Confidence in Test Coverage
+
+- I am confident that I have tested the main functionality of the game, including:
+  - Grid drawing and disk placement.
+  - Falling disk behavior.
+  - Valid and invalid moves.
+  - Correct detection of game over.
+- I believe every critical edge case has been tested:
+  - Moving disks when the grid is full.
+  - Validating disk placement in available spaces.
+  
+However, since the grid size is small in Part 1, I’ve only tested the logic with small board sizes. In Part 2, with larger boards, the logic will be extended but should work as the disk placement uses dynamic calculations based on grid size, avoiding hardcoded positions.
+
+#### Bugs Fixed During Testing
+
+- During initial tests, I found that the falling disk sometimes skipped over rows, especially when the grid was small. This was due to a mismatch between the y-position update during the falling animation and the final position check. I fixed this by refining the formula for disk movement during the drop animation and ensuring it stops at the correct row.
+  
+  **Fix**: Updated the condition to check whether the disk’s `y` value reaches the expected position, ensuring it stops at the correct row.
+
+- There were also some issues with edge cases when clicking at the bottom-most row of a full column, which sometimes resulted in unexpected behavior. I fixed this by adding additional bounds checking before allowing a move in a full column.
+
+  **Fix**: Added logic to prevent placing a disk in a column that is already full.
+
+#### Suggestions for Future Testing
+
+- Test with larger grid sizes (e.g., 6x6, 7x7).
+- Include edge cases like multiple moves in the same column.
+- Test edge cases like clicking at grid boundaries and ensuring it doesn't cause errors.

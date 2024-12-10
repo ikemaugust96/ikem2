@@ -1,0 +1,72 @@
+
+#### Data Structures
+- **Grid (2D List)**: A 2D list to represent the game grid, where each cell can be empty or filled with a disk of color "RED" or "YELLOW".
+  - Example: `grid = [["", "", ""], ["", "RED", ""], ["YELLOW", "", ""]]`
+
+- **Falling Disks (List)**: A list to manage the currently falling disks, with each disk object containing the disk's color, column, row, and y-position (for the falling animation).
+  - Example: `falling_disks = [FallingDisk("RED", 0, 2)]`
+
+- **Current Color (String)**: A string to keep track of the current player's color ("RED" or "YELLOW").
+
+- **Game Over (Boolean)**: A boolean flag to determine if the game has ended.
+
+#### Classes
+
+- **FallingDisk**
+  - **Attributes**:
+    - `color`: The color of the disk ("RED" or "YELLOW").
+    - `col`: The column where the disk is falling.
+    - `row`: The row where the disk will land.
+    - `y`: The y-coordinate of the disk during the falling animation.
+  - **Methods**:
+    - Constructor (`__init__`) to initialize the disk with color, column, row, and the starting y-coordinate.
+  
+#### Functions
+
+- **setup()**: Initializes the game environment, sets up the canvas size, and any other necessary properties (like text size).
+  - Description: Sets the window size based on grid size, defines the appearance of text in the game.
+  
+- **draw()**: This is the main drawing function, which continuously updates the game state.
+  - Description: Draws the grid, falling disks, and any other visual elements.
+  - Flow:
+    - Draws the game grid.
+    - Updates and moves the falling disk if any exists.
+    - Updates the current player's disk color and shows a preview of the next disk in the column.
+  
+- **draw_grid()**: Draws the grid lines that define the columns and rows of the board.
+  - Description: Draws the visual grid on the screen.
+
+- **draw_disk(x, y, color)**: Draws a disk at a specific position (x, y) with a given color.
+  - Description: Creates the circular disk for both the falling and the placed disk.
+
+- **mouseReleased()**: Handles the logic when the player clicks on the board to make a move.
+  - Description: This function gets called when the player releases the mouse. It checks if the game is over, if a disk is falling, or if the click is valid. If the click is valid, it places a disk in the first available row of the clicked column and then switches the turn to the other player.
+
+- **check_game_over()**: Checks if the game is over by determining if there are no empty cells left in the grid.
+  - Description: Sets the `game_over` flag to `True` when there are no empty spaces left in the grid, indicating the game is over.
+
+#### Pseudocode
+
+1. **Setup**:
+   - Initialize grid as an empty 2D array (rows × cols).
+   - Set the initial player color to "RED".
+   - Initialize `game_over` to `False`.
+   - Initialize `falling_disks` as an empty list.
+
+2. **Draw**:
+   - If `falling_disks` is not empty, update and animate the falling disk:
+     - Move the disk down by updating its `y` position.
+     - If the disk reaches its final position, place it in the grid.
+     - Check for game over conditions.
+   - Draw the grid.
+   - Draw each disk on the grid.
+   - If it's the current player's turn, show a preview of the disk at the mouse position.
+
+3. **mouseReleased**:
+   - If `game_over` is `True` or if a disk is already falling, do nothing.
+   - Get the clicked column (`col`) based on `mouseX`.
+   - For each row in the column (starting from the bottom), check if it's empty. If it's empty, create a `FallingDisk` object and add it to `falling_disks`. Change the current player's color.
+
+4. **check_game_over**:
+   - Check if there are any empty cells in the grid.
+   - If there are no empty cells, set `game_over = True` and print "Game Over!".
